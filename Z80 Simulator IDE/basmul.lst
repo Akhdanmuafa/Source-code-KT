@@ -1,0 +1,74 @@
+0001   0000             ; Compiled with: Z80 Simulator IDE v9.70
+0002   0000             ;
+0003   0000             ; Begin
+0004   0000 DD 21 00 FF 	LD IX,0FF00H
+0005   0004 31 FA FE    	LD SP,0FEFAH
+0006   0007             ;       The address of 'a' (integer) (global) is FEFEH (IX-2)
+0007   0007             a:	EQU 0FEFEH
+0008   0007             ;       The address of 'b' (integer) (global) is FEFCH (IX-4)
+0009   0007             b:	EQU 0FEFCH
+0010   0007             ;       The address of 'c' (integer) (global) is FEFAH (IX-6)
+0011   0007             c:	EQU 0FEFAH
+0012   0007             ; Begin of program
+0013   0007             ; 1: Dim a As Integer
+0014   0007 3E 00       	LD A,00H
+0015   0009 DD 77 FE    	LD (IX-02H),A
+0016   000C DD 77 FF    	LD (IX-01H),A
+0017   000F             ; 2: Dim b As Integer
+0018   000F 3E 00       	LD A,00H
+0019   0011 DD 77 FC    	LD (IX-04H),A
+0020   0014 DD 77 FD    	LD (IX-03H),A
+0021   0017             ; 3: Dim c As Integer
+0022   0017 3E 00       	LD A,00H
+0023   0019 DD 77 FA    	LD (IX-06H),A
+0024   001C DD 77 FB    	LD (IX-05H),A
+0025   001F             ; 4: 
+0026   001F             ; 5: a = 123 'First number
+0027   001F 21 7B 00    	LD HL,007BH
+0028   0022 DD 75 FE    	LD (IX-02H),L
+0029   0025 DD 74 FF    	LD (IX-01H),H
+0030   0028             ; 6: b = 234 'Second number
+0031   0028 21 EA 00    	LD HL,00EAH
+0032   002B DD 75 FC    	LD (IX-04H),L
+0033   002E DD 74 FD    	LD (IX-03H),H
+0034   0031             ; 7: c = a * b
+0035   0031 DD 6E FE    	LD L,(IX-02H)
+0036   0034 DD 66 FF    	LD H,(IX-01H)
+0037   0037 DD 5E FC    	LD E,(IX-04H)
+0038   003A DD 56 FD    	LD D,(IX-03H)
+0039   003D CD 47 00    	CALL M001
+0040   0040 DD 75 FA    	LD (IX-06H),L
+0041   0043 DD 74 FB    	LD (IX-05H),H
+0042   0046             ; End of program
+0043   0046 76          	HALT
+0044   0047             ; Integer Multiplication Routine
+0045   0047 C5          M001:	PUSH BC
+0046   0048 44          	LD B,H
+0047   0049 4D          	LD C,L
+0048   004A 21 00 00    	LD HL,0000H
+0049   004D 3E 10       	LD A,10H
+0050   004F 15          M003:	DEC D
+0051   0050 14          	INC D
+0052   0051 20 0F       	JR NZ,M002
+0053   0053 FE 09       	CP 09H
+0054   0055 38 0B       	JR C,M002
+0055   0057 D6 08       	SUB 08H
+0056   0059 F5          	PUSH AF
+0057   005A 53          	LD D,E
+0058   005B 5C          	LD E,H
+0059   005C 65          	LD H,L
+0060   005D 2E 00       	LD L,00H
+0061   005F F1          	POP AF
+0062   0060 18 ED       	JR M003
+0063   0062 29          M002:	ADD HL,HL
+0064   0063 CB 13       	RL E
+0065   0065 CB 12       	RL D
+0066   0067 30 01       	JR NC,M004
+0067   0069 09          	ADD HL,BC
+0068   006A 3D          M004:	DEC A
+0069   006B 20 E2       	JR NZ,M003
+0070   006D C1          	POP BC
+0071   006E C9          	RET
+0072   006F             ; End of listing
+0073   006F             	.END
+Number of errors = 0

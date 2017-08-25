@@ -1,0 +1,27 @@
+0001   0000 C3 00 01    	JP 0100H  ;jump to main routine
+0002   0003             
+0003   0003             	.ORG 0038H  ;interrupt routine
+0004   0038 DB 01       	IN A,(01H)  ;get the value from port 01H
+0005   003A D3 02       	OUT (02H),A  ;echo that value to port 02H
+0006   003C FB          	EI  ;enable interrupts
+0007   003D ED 4D       	RETI  ;return from interrupt
+0008   003F             
+0009   003F             	.ORG 0100H  ;main rountine
+0010   0100 18 05       	JR L1  ;jump over data area
+0011   0102 0A          L2:	.DB 0AH  ;data byte 1
+0012   0103 0B          	.DB 0BH  ;data byte 2
+0013   0104 0C          	.DB 0CH  ;data byte 3
+0014   0105 0D          	.DB 0DH  ;data byte 4
+0015   0106 0E          	.DB 0EH  ;data byte 5
+0016   0107 16 05       L1:	LD D,05H  ;load counter register D
+0017   0109 01 02 01    	LD BC,L2  ;load pointer register pair BC
+0018   010C 0A          L3:	LD A,(BC)  ;get the data byte
+0019   010D D3 02       	OUT (02H),A  ;send it to port 02H
+0020   010F 03          	INC BC  ;increment pointer BC
+0021   0110 15          	DEC D  ;decrement counter D
+0022   0111 C2 0C 01    	JP NZ,L3  ;loop until all data bytes are sent
+0023   0114 ED 56       	IM 1  ;set interrupt mode 1
+0024   0116 FB          	EI  ;enable interrupts
+0025   0117 C3 17 01    L4:	JP L4  ;loop forever
+0026   011A             	.END
+Number of errors = 0

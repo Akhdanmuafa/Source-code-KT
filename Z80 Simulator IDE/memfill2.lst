@@ -1,0 +1,11 @@
+0001   0000 DB 01       L2:	IN A,(01H)  ;get value on port 01H to be used for memory fill
+0002   0002 16 FF       	LD D,0FFH  ;initial value in counter register D
+0003   0004 01 00 FF    	LD BC,0FF00H  ;initial value in pointer register pair BC
+0004   0007 02          L1:	LD (BC),A  ;load value in A to the memory location addressed by BC
+0005   0008 03          	INC BC  ;increment pointer BC
+0006   0009 15          	DEC D  ;decrement counter D
+0007   000A C2 07 00    	JP NZ,L1  ;loop until value in D is zero
+0008   000D 02          	LD (BC),A  ;fill the last memory location FFFFH
+0009   000E C3 00 00    	JP L2  ;repeat routine
+0010   0011             	.END
+Number of errors = 0

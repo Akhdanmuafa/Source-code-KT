@@ -1,0 +1,901 @@
+0001   0000             ; Compiled with: Z80 Simulator IDE v9.70
+0002   0000             ;
+0003   0000             ; Begin
+0004   0000 DD 21 00 FF 	LD IX,0FF00H
+0005   0004 31 F4 FE    	LD SP,0FEF4H
+0006   0007             ;       The address of 'a' (single) (global) is FEFCH (IX-4)
+0007   0007             a:	EQU 0FEFCH
+0008   0007             ;       The address of 'b' (single) (global) is FEF8H (IX-8)
+0009   0007             b:	EQU 0FEF8H
+0010   0007             ;       The address of 'c' (single) (global) is FEF4H (IX-12)
+0011   0007             c:	EQU 0FEF4H
+0012   0007             ; Begin of program
+0013   0007             ; 1: Dim a As Single
+0014   0007 3E 00       	LD A,00H
+0015   0009 DD 77 FC    	LD (IX-04H),A
+0016   000C DD 77 FD    	LD (IX-03H),A
+0017   000F DD 77 FE    	LD (IX-02H),A
+0018   0012 DD 77 FF    	LD (IX-01H),A
+0019   0015             ; 2: Dim b As Single
+0020   0015 3E 00       	LD A,00H
+0021   0017 DD 77 F8    	LD (IX-08H),A
+0022   001A DD 77 F9    	LD (IX-07H),A
+0023   001D DD 77 FA    	LD (IX-06H),A
+0024   0020 DD 77 FB    	LD (IX-05H),A
+0025   0023             ; 3: Dim c As Single
+0026   0023 3E 00       	LD A,00H
+0027   0025 DD 77 F4    	LD (IX-0CH),A
+0028   0028 DD 77 F5    	LD (IX-0BH),A
+0029   002B DD 77 F6    	LD (IX-0AH),A
+0030   002E DD 77 F7    	LD (IX-09H),A
+0031   0031             ; 4: 
+0032   0031             ; 5: a = 9.876543 'First number
+0033   0031 01 1E 41    	LD BC,411EH
+0034   0034 11 52 06    	LD DE,0652H
+0035   0037 DD 73 FC    	LD (IX-04H),E
+0036   003A DD 72 FD    	LD (IX-03H),D
+0037   003D DD 71 FE    	LD (IX-02H),C
+0038   0040 DD 70 FF    	LD (IX-01H),B
+0039   0043             ; 6: b = 2.345678 'Second number
+0040   0043 01 16 40    	LD BC,4016H
+0041   0046 11 97 1F    	LD DE,1F97H
+0042   0049 DD 73 F8    	LD (IX-08H),E
+0043   004C DD 72 F9    	LD (IX-07H),D
+0044   004F DD 71 FA    	LD (IX-06H),C
+0045   0052 DD 70 FB    	LD (IX-05H),B
+0046   0055             ; 7: c = a * b
+0047   0055 DD 5E FC    	LD E,(IX-04H)
+0048   0058 DD 56 FD    	LD D,(IX-03H)
+0049   005B DD 4E FE    	LD C,(IX-02H)
+0050   005E DD 46 FF    	LD B,(IX-01H)
+0051   0061 C5          	PUSH BC
+0052   0062 D5          	PUSH DE
+0053   0063 DD 5E F8    	LD E,(IX-08H)
+0054   0066 DD 56 F9    	LD D,(IX-07H)
+0055   0069 DD 4E FA    	LD C,(IX-06H)
+0056   006C DD 46 FB    	LD B,(IX-05H)
+0057   006F CD DB 02    	CALL M201
+0058   0072 DD 73 F4    	LD (IX-0CH),E
+0059   0075 DD 72 F5    	LD (IX-0BH),D
+0060   0078 DD 71 F6    	LD (IX-0AH),C
+0061   007B DD 70 F7    	LD (IX-09H),B
+0062   007E             ; 8: 
+0063   007E             ; 9: Print 1, "Number ", a, CrLf
+0064   007E 3E 4E       	LD A,4EH
+0065   0080 D3 01       	OUT (01H),A
+0066   0082 3E 75       	LD A,75H
+0067   0084 D3 01       	OUT (01H),A
+0068   0086 3E 6D       	LD A,6DH
+0069   0088 D3 01       	OUT (01H),A
+0070   008A 3E 62       	LD A,62H
+0071   008C D3 01       	OUT (01H),A
+0072   008E 3E 65       	LD A,65H
+0073   0090 D3 01       	OUT (01H),A
+0074   0092 3E 72       	LD A,72H
+0075   0094 D3 01       	OUT (01H),A
+0076   0096 3E 20       	LD A,20H
+0077   0098 D3 01       	OUT (01H),A
+0078   009A 01 01 00    	LD BC,0001H
+0079   009D DD 71 01    	LD (IX+01H),C
+0080   00A0 DD 70 02    	LD (IX+02H),B
+0081   00A3 0E 07       	LD C,07H
+0082   00A5 DD 71 03    	LD (IX+03H),C
+0083   00A8 DD 5E FC    	LD E,(IX-04H)
+0084   00AB DD 56 FD    	LD D,(IX-03H)
+0085   00AE DD 4E FE    	LD C,(IX-02H)
+0086   00B1 DD 46 FF    	LD B,(IX-01H)
+0087   00B4 CD 61 04    	CALL P401
+0088   00B7 3E 0D       	LD A,0DH
+0089   00B9 D3 01       	OUT (01H),A
+0090   00BB 3E 0A       	LD A,0AH
+0091   00BD D3 01       	OUT (01H),A
+0092   00BF             ; 10: Print 1, "multiplied by ", b, CrLf
+0093   00BF 3E 6D       	LD A,6DH
+0094   00C1 D3 01       	OUT (01H),A
+0095   00C3 3E 75       	LD A,75H
+0096   00C5 D3 01       	OUT (01H),A
+0097   00C7 3E 6C       	LD A,6CH
+0098   00C9 D3 01       	OUT (01H),A
+0099   00CB 3E 74       	LD A,74H
+0100   00CD D3 01       	OUT (01H),A
+0101   00CF 3E 69       	LD A,69H
+0102   00D1 D3 01       	OUT (01H),A
+0103   00D3 3E 70       	LD A,70H
+0104   00D5 D3 01       	OUT (01H),A
+0105   00D7 3E 6C       	LD A,6CH
+0106   00D9 D3 01       	OUT (01H),A
+0107   00DB 3E 69       	LD A,69H
+0108   00DD D3 01       	OUT (01H),A
+0109   00DF 3E 65       	LD A,65H
+0110   00E1 D3 01       	OUT (01H),A
+0111   00E3 3E 64       	LD A,64H
+0112   00E5 D3 01       	OUT (01H),A
+0113   00E7 3E 20       	LD A,20H
+0114   00E9 D3 01       	OUT (01H),A
+0115   00EB 3E 62       	LD A,62H
+0116   00ED D3 01       	OUT (01H),A
+0117   00EF 3E 79       	LD A,79H
+0118   00F1 D3 01       	OUT (01H),A
+0119   00F3 3E 20       	LD A,20H
+0120   00F5 D3 01       	OUT (01H),A
+0121   00F7 01 01 00    	LD BC,0001H
+0122   00FA DD 71 01    	LD (IX+01H),C
+0123   00FD DD 70 02    	LD (IX+02H),B
+0124   0100 0E 07       	LD C,07H
+0125   0102 DD 71 03    	LD (IX+03H),C
+0126   0105 DD 5E F8    	LD E,(IX-08H)
+0127   0108 DD 56 F9    	LD D,(IX-07H)
+0128   010B DD 4E FA    	LD C,(IX-06H)
+0129   010E DD 46 FB    	LD B,(IX-05H)
+0130   0111 CD 61 04    	CALL P401
+0131   0114 3E 0D       	LD A,0DH
+0132   0116 D3 01       	OUT (01H),A
+0133   0118 3E 0A       	LD A,0AH
+0134   011A D3 01       	OUT (01H),A
+0135   011C             ; 11: Print 1, "equals ", c, "!", CrLf
+0136   011C 3E 65       	LD A,65H
+0137   011E D3 01       	OUT (01H),A
+0138   0120 3E 71       	LD A,71H
+0139   0122 D3 01       	OUT (01H),A
+0140   0124 3E 75       	LD A,75H
+0141   0126 D3 01       	OUT (01H),A
+0142   0128 3E 61       	LD A,61H
+0143   012A D3 01       	OUT (01H),A
+0144   012C 3E 6C       	LD A,6CH
+0145   012E D3 01       	OUT (01H),A
+0146   0130 3E 73       	LD A,73H
+0147   0132 D3 01       	OUT (01H),A
+0148   0134 3E 20       	LD A,20H
+0149   0136 D3 01       	OUT (01H),A
+0150   0138 01 01 00    	LD BC,0001H
+0151   013B DD 71 01    	LD (IX+01H),C
+0152   013E DD 70 02    	LD (IX+02H),B
+0153   0141 0E 07       	LD C,07H
+0154   0143 DD 71 03    	LD (IX+03H),C
+0155   0146 DD 5E F4    	LD E,(IX-0CH)
+0156   0149 DD 56 F5    	LD D,(IX-0BH)
+0157   014C DD 4E F6    	LD C,(IX-0AH)
+0158   014F DD 46 F7    	LD B,(IX-09H)
+0159   0152 CD 61 04    	CALL P401
+0160   0155 3E 21       	LD A,21H
+0161   0157 D3 01       	OUT (01H),A
+0162   0159 3E 0D       	LD A,0DH
+0163   015B D3 01       	OUT (01H),A
+0164   015D 3E 0A       	LD A,0AH
+0165   015F D3 01       	OUT (01H),A
+0166   0161             ; End of program
+0167   0161 76          	HALT
+0168   0162             ; Long Division Routine
+0169   0162 AF          D104:	XOR A
+0170   0163 93          	SUB E
+0171   0164 5F          	LD E,A
+0172   0165 3E 00       	LD A,00H
+0173   0167 9A          	SBC A,D
+0174   0168 57          	LD D,A
+0175   0169 3E 00       	LD A,00H
+0176   016B 99          	SBC A,C
+0177   016C 4F          	LD C,A
+0178   016D 3E 00       	LD A,00H
+0179   016F 98          	SBC A,B
+0180   0170 47          	LD B,A
+0181   0171 C9          	RET
+0182   0172 D9          D102:	EXX
+0183   0173 E1          	POP HL
+0184   0174 D1          	POP DE
+0185   0175 C1          	POP BC
+0186   0176 E5          	PUSH HL
+0187   0177 D9          	EXX
+0188   0178 E5          	PUSH HL
+0189   0179 CD 8B 01    	CALL D103
+0190   017C D9          	EXX
+0191   017D E1          	POP HL
+0192   017E C9          	RET
+0193   017F D9          D101:	EXX
+0194   0180 E1          	POP HL
+0195   0181 D1          	POP DE
+0196   0182 C1          	POP BC
+0197   0183 E5          	PUSH HL
+0198   0184 D9          	EXX
+0199   0185 E5          	PUSH HL
+0200   0186 CD 8B 01    	CALL D103
+0201   0189 E1          	POP HL
+0202   018A C9          	RET
+0203   018B D9          D103:	EXX
+0204   018C 78          	LD A,B
+0205   018D D9          	EXX
+0206   018E A8          	XOR B
+0207   018F D9          	EXX
+0208   0190 78          	LD A,B
+0209   0191 F5          	PUSH AF
+0210   0192 CB 78       	BIT 7,B
+0211   0194 C4 62 01    	CALL NZ,D104
+0212   0197 D9          	EXX
+0213   0198 CB 78       	BIT 7,B
+0214   019A C4 62 01    	CALL NZ,D104
+0215   019D CD B1 01    	CALL D105
+0216   01A0 F1          	POP AF
+0217   01A1 F2 A9 01    	JP P,D106
+0218   01A4 6F          	LD L,A
+0219   01A5 FC 62 01    	CALL M,D104
+0220   01A8 7D          	LD A,L
+0221   01A9 B7          D106:	OR A
+0222   01AA F0          	RET P
+0223   01AB D9          	EXX
+0224   01AC CD 62 01    	CALL D104
+0225   01AF D9          	EXX
+0226   01B0 C9          	RET
+0227   01B1 D9          D105:	EXX
+0228   01B2 C5          	PUSH BC
+0229   01B3 42          	LD B,D
+0230   01B4 4B          	LD C,E
+0231   01B5 D9          	EXX
+0232   01B6 EB          	EX DE,HL
+0233   01B7 50          	LD D,B
+0234   01B8 59          	LD E,C
+0235   01B9 C1          	POP BC
+0236   01BA E5          	PUSH HL
+0237   01BB 21 00 00    	LD HL,0000H
+0238   01BE D9          	EXX
+0239   01BF D1          	POP DE
+0240   01C0 21 00 00    	LD HL,0000H
+0241   01C3 3E 20       	LD A,20H
+0242   01C5 B7          	OR A
+0243   01C6 CB 11       D108:	RL C
+0244   01C8 CB 10       	RL B
+0245   01CA D9          	EXX
+0246   01CB CB 11       	RL C
+0247   01CD CB 10       	RL B
+0248   01CF D9          	EXX
+0249   01D0 ED 6A       	ADC HL,HL
+0250   01D2 D9          	EXX
+0251   01D3 ED 6A       	ADC HL,HL
+0252   01D5 D9          	EXX
+0253   01D6 ED 52       	SBC HL,DE
+0254   01D8 D9          	EXX
+0255   01D9 ED 52       	SBC HL,DE
+0256   01DB D9          	EXX
+0257   01DC 30 05       	JR NC,D107
+0258   01DE 19          	ADD HL,DE
+0259   01DF D9          	EXX
+0260   01E0 ED 5A       	ADC HL,DE
+0261   01E2 D9          	EXX
+0262   01E3 3F          D107:	CCF
+0263   01E4 3D          	DEC A
+0264   01E5 20 DF       	JR NZ,D108
+0265   01E7 CB 11       	RL C
+0266   01E9 CB 10       	RL B
+0267   01EB D9          	EXX
+0268   01EC CB 11       	RL C
+0269   01EE CB 10       	RL B
+0270   01F0 D9          	EXX
+0271   01F1 50          	LD D,B
+0272   01F2 59          	LD E,C
+0273   01F3 E5          	PUSH HL
+0274   01F4 D9          	EXX
+0275   01F5 D1          	POP DE
+0276   01F6 C5          	PUSH BC
+0277   01F7 44          	LD B,H
+0278   01F8 4D          	LD C,L
+0279   01F9 D9          	EXX
+0280   01FA C1          	POP BC
+0281   01FB C9          	RET
+0282   01FC             ; Single Precision Subtraction Routine
+0283   01FC 78          S201:	LD A,B
+0284   01FD EE 80       	XOR 80H
+0285   01FF 47          	LD B,A
+0286   0200 D9          	EXX
+0287   0201 E1          	POP HL
+0288   0202 D1          	POP DE
+0289   0203 C1          	POP BC
+0290   0204 E5          	PUSH HL
+0291   0205 D9          	EXX
+0292   0206 E5          	PUSH HL
+0293   0207 CD 0F 02    	CALL S202
+0294   020A CD A0 02    	CALL S203
+0295   020D E1          	POP HL
+0296   020E C9          	RET
+0297   020F D9          S202:	EXX
+0298   0210 2E 00       	LD L,00H
+0299   0212 63          	LD H,E
+0300   0213 5A          	LD E,D
+0301   0214 51          	LD D,C
+0302   0215 CB FA       	SET 7,D
+0303   0217 CB 11       	RL C
+0304   0219 78          	LD A,B
+0305   021A 8F          	ADC A,A
+0306   021B 4F          	LD C,A
+0307   021C D9          	EXX
+0308   021D 2E 00       	LD L,00H
+0309   021F 63          	LD H,E
+0310   0220 5A          	LD E,D
+0311   0221 51          	LD D,C
+0312   0222 CB FA       	SET 7,D
+0313   0224 CB 11       	RL C
+0314   0226 78          	LD A,B
+0315   0227 8F          	ADC A,A
+0316   0228 4F          	LD C,A
+0317   0229 79          	LD A,C
+0318   022A D9          	EXX
+0319   022B 91          	SUB C
+0320   022C 28 11       	JR Z,S204
+0321   022E 30 03       	JR NC,S205
+0322   0230 ED 44       	NEG
+0323   0232 D9          	EXX
+0324   0233 CB 3A       S205:	SRL D
+0325   0235 CB 1B       	RR E
+0326   0237 CB 1C       	RR H
+0327   0239 CB 1D       	RR L
+0328   023B 0C          	INC C
+0329   023C 3D          	DEC A
+0330   023D 20 F4       	JR NZ,S205
+0331   023F 78          S204:	LD A,B
+0332   0240 D9          	EXX
+0333   0241 A8          	XOR B
+0334   0242 D9          	EXX
+0335   0243 FA 6E 02    	JP M,S206
+0336   0246 7D          	LD A,L
+0337   0247 D9          	EXX
+0338   0248 85          	ADD A,L
+0339   0249 D9          	EXX
+0340   024A 6F          	LD L,A
+0341   024B 7C          	LD A,H
+0342   024C D9          	EXX
+0343   024D 8C          	ADC A,H
+0344   024E D9          	EXX
+0345   024F 67          	LD H,A
+0346   0250 7B          	LD A,E
+0347   0251 D9          	EXX
+0348   0252 8B          	ADC A,E
+0349   0253 D9          	EXX
+0350   0254 5F          	LD E,A
+0351   0255 7A          	LD A,D
+0352   0256 D9          	EXX
+0353   0257 8A          	ADC A,D
+0354   0258 D9          	EXX
+0355   0259 57          	LD D,A
+0356   025A 30 43       	JR NC,S207
+0357   025C 7A          S210:	LD A,D
+0358   025D CB 1A       	RR D
+0359   025F CB 1B       	RR E
+0360   0261 CB 1C       	RR H
+0361   0263 CB 1D       	RR L
+0362   0265 B1          	OR C
+0363   0266 B3          	OR E
+0364   0267 B4          	OR H
+0365   0268 B5          	OR L
+0366   0269 28 34       	JR Z,S207
+0367   026B 0C          	INC C
+0368   026C 18 31       	JR S207
+0369   026E 7A          S206:	LD A,D
+0370   026F D9          	EXX
+0371   0270 BA          	CP D
+0372   0271 38 16       	JR C,S208
+0373   0273 20 13       	JR NZ,S209
+0374   0275 7B          	LD A,E
+0375   0276 D9          	EXX
+0376   0277 BB          	CP E
+0377   0278 38 0F       	JR C,S208
+0378   027A 20 0C       	JR NZ,S209
+0379   027C 7C          	LD A,H
+0380   027D D9          	EXX
+0381   027E BC          	CP H
+0382   027F 38 08       	JR C,S208
+0383   0281 20 05       	JR NZ,S209
+0384   0283 7D          	LD A,L
+0385   0284 D9          	EXX
+0386   0285 BD          	CP L
+0387   0286 38 01       	JR C,S208
+0388   0288 D9          S209:	EXX
+0389   0289 7D          S208:	LD A,L
+0390   028A D9          	EXX
+0391   028B 95          	SUB L
+0392   028C D9          	EXX
+0393   028D 6F          	LD L,A
+0394   028E 7C          	LD A,H
+0395   028F D9          	EXX
+0396   0290 9C          	SBC A,H
+0397   0291 D9          	EXX
+0398   0292 67          	LD H,A
+0399   0293 7B          	LD A,E
+0400   0294 D9          	EXX
+0401   0295 9B          	SBC A,E
+0402   0296 D9          	EXX
+0403   0297 5F          	LD E,A
+0404   0298 7A          	LD A,D
+0405   0299 D9          	EXX
+0406   029A 9A          	SBC A,D
+0407   029B D9          	EXX
+0408   029C 57          	LD D,A
+0409   029D 38 BD       	JR C,S210
+0410   029F C9          S207:	RET
+0411   02A0 79          S203:	LD A,C
+0412   02A1 B7          	OR A
+0413   02A2 20 04       	JR NZ,S211
+0414   02A4 47          S213:	LD B,A
+0415   02A5 5F          	LD E,A
+0416   02A6 57          	LD D,A
+0417   02A7 C9          	RET
+0418   02A8 CB 7A       S211:	BIT 7,D
+0419   02AA 20 10       	JR NZ,S212
+0420   02AC 79          	LD A,C
+0421   02AD B7          	OR A
+0422   02AE 28 F4       	JR Z,S213
+0423   02B0 0D          	DEC C
+0424   02B1 CB 25       	SLA L
+0425   02B3 CB 14       	RL H
+0426   02B5 CB 13       	RL E
+0427   02B7 CB 12       	RL D
+0428   02B9 C3 A8 02    	JP S211
+0429   02BC 7D          S212:	LD A,L
+0430   02BD C6 80       	ADD A,80H
+0431   02BF 7C          	LD A,H
+0432   02C0 CE 00       	ADC A,00H
+0433   02C2 6F          	LD L,A
+0434   02C3 7B          	LD A,E
+0435   02C4 CE 00       	ADC A,00H
+0436   02C6 67          	LD H,A
+0437   02C7 7A          	LD A,D
+0438   02C8 CE 00       	ADC A,00H
+0439   02CA 30 01       	JR NC,S214
+0440   02CC 0C          	INC C
+0441   02CD 87          S214:	ADD A,A
+0442   02CE CB 39       	SRL C
+0443   02D0 1F          	RRA
+0444   02D1 5F          	LD E,A
+0445   02D2 78          	LD A,B
+0446   02D3 E6 80       	AND 80H
+0447   02D5 B1          	OR C
+0448   02D6 57          	LD D,A
+0449   02D7 42          	LD B,D
+0450   02D8 4B          	LD C,E
+0451   02D9 EB          	EX DE,HL
+0452   02DA C9          	RET
+0453   02DB             ; Single Precision Multiplication Routine
+0454   02DB D9          M201:	EXX
+0455   02DC E1          	POP HL
+0456   02DD D1          	POP DE
+0457   02DE C1          	POP BC
+0458   02DF E5          	PUSH HL
+0459   02E0 D9          	EXX
+0460   02E1 E5          	PUSH HL
+0461   02E2 D9          	EXX
+0462   02E3 2E 00       	LD L,00H
+0463   02E5 63          	LD H,E
+0464   02E6 5A          	LD E,D
+0465   02E7 51          	LD D,C
+0466   02E8 CB FA       	SET 7,D
+0467   02EA CB 11       	RL C
+0468   02EC 78          	LD A,B
+0469   02ED 8F          	ADC A,A
+0470   02EE 4F          	LD C,A
+0471   02EF 28 12       	JR Z,M202
+0472   02F1 D9          	EXX
+0473   02F2 2E 00       	LD L,00H
+0474   02F4 63          	LD H,E
+0475   02F5 5A          	LD E,D
+0476   02F6 51          	LD D,C
+0477   02F7 CB FA       	SET 7,D
+0478   02F9 CB 11       	RL C
+0479   02FB 78          	LD A,B
+0480   02FC 8F          	ADC A,A
+0481   02FD 4F          	LD C,A
+0482   02FE 28 03       	JR Z,M202
+0483   0300 CD 08 03    	CALL M203
+0484   0303 CD 7B 03    M202:	CALL M204
+0485   0306 E1          	POP HL
+0486   0307 C9          	RET
+0487   0308 78          M203:	LD A,B
+0488   0309 D9          	EXX
+0489   030A A8          	XOR B
+0490   030B 47          	LD B,A
+0491   030C 79          	LD A,C
+0492   030D D9          	EXX
+0493   030E D6 7F       	SUB 7FH
+0494   0310 47          	LD B,A
+0495   0311 79          	LD A,C
+0496   0312 D6 7F       	SUB 7FH
+0497   0314 80          	ADD A,B
+0498   0315 E2 2A 03    	JP PO,M205
+0499   0318 D9          	EXX
+0500   0319 21 02 00    	LD HL,0002H
+0501   031C 22 00 FF    	LD (0FF00H),HL
+0502   031F 0E FF       	LD C,0FFH
+0503   0321 30 01       	JR NC,M206
+0504   0323 0C          	INC C
+0505   0324 51          M206:	LD D,C
+0506   0325 59          	LD E,C
+0507   0326 61          	LD H,C
+0508   0327 2E 00       	LD L,00H
+0509   0329 C9          	RET
+0510   032A C6 80       M205:	ADD A,80H
+0511   032C D9          	EXX
+0512   032D 4F          	LD C,A
+0513   032E C5          	PUSH BC
+0514   032F D5          	PUSH DE
+0515   0330 44          	LD B,H
+0516   0331 4D          	LD C,L
+0517   0332 D9          	EXX
+0518   0333 C1          	POP BC
+0519   0334 E5          	PUSH HL
+0520   0335 D9          	EXX
+0521   0336 D1          	POP DE
+0522   0337 3E 20       	LD A,20H
+0523   0339 0D          M208:	DEC C
+0524   033A 0C          	INC C
+0525   033B 20 1A       	JR NZ,M207
+0526   033D FE 09       	CP 09H
+0527   033F 38 16       	JR C,M207
+0528   0341 D6 08       	SUB 08H
+0529   0343 F5          	PUSH AF
+0530   0344 D9          	EXX
+0531   0345 79          	LD A,C
+0532   0346 48          	LD C,B
+0533   0347 06 00       	LD B,00H
+0534   0349 D9          	EXX
+0535   034A 48          	LD C,B
+0536   034B 47          	LD B,A
+0537   034C D9          	EXX
+0538   034D 7D          	LD A,L
+0539   034E 6C          	LD L,H
+0540   034F 26 00       	LD H,00H
+0541   0351 D9          	EXX
+0542   0352 6C          	LD L,H
+0543   0353 67          	LD H,A
+0544   0354 F1          	POP AF
+0545   0355 18 E2       	JR M208
+0546   0357 D9          M207:	EXX
+0547   0358 CB 38       	SRL B
+0548   035A CB 19       	RR C
+0549   035C D9          	EXX
+0550   035D CB 18       	RR B
+0551   035F CB 19       	RR C
+0552   0361 30 05       	JR NC,M209
+0553   0363 19          	ADD HL,DE
+0554   0364 D9          	EXX
+0555   0365 ED 5A       	ADC HL,DE
+0556   0367 D9          	EXX
+0557   0368 D9          M209:	EXX
+0558   0369 CB 1C       	RR H
+0559   036B CB 1D       	RR L
+0560   036D D9          	EXX
+0561   036E CB 1C       	RR H
+0562   0370 CB 1D       	RR L
+0563   0372 3D          	DEC A
+0564   0373 20 C4       	JR NZ,M208
+0565   0375 D9          	EXX
+0566   0376 E5          	PUSH HL
+0567   0377 D9          	EXX
+0568   0378 D1          	POP DE
+0569   0379 C1          	POP BC
+0570   037A C9          	RET
+0571   037B 79          M204:	LD A,C
+0572   037C B7          	OR A
+0573   037D 20 04       	JR NZ,M210
+0574   037F 47          M212:	LD B,A
+0575   0380 5F          	LD E,A
+0576   0381 57          	LD D,A
+0577   0382 C9          	RET
+0578   0383 CB 7A       M210:	BIT 7,D
+0579   0385 20 10       	JR NZ,M211
+0580   0387 79          	LD A,C
+0581   0388 B7          	OR A
+0582   0389 28 F4       	JR Z,M212
+0583   038B 0D          	DEC C
+0584   038C CB 25       	SLA L
+0585   038E CB 14       	RL H
+0586   0390 CB 13       	RL E
+0587   0392 CB 12       	RL D
+0588   0394 C3 83 03    	JP M210
+0589   0397 7D          M211:	LD A,L
+0590   0398 C6 80       	ADD A,80H
+0591   039A 7C          	LD A,H
+0592   039B CE 00       	ADC A,00H
+0593   039D 6F          	LD L,A
+0594   039E 7B          	LD A,E
+0595   039F CE 00       	ADC A,00H
+0596   03A1 67          	LD H,A
+0597   03A2 7A          	LD A,D
+0598   03A3 CE 00       	ADC A,00H
+0599   03A5 30 01       	JR NC,M213
+0600   03A7 0C          	INC C
+0601   03A8 87          M213:	ADD A,A
+0602   03A9 CB 39       	SRL C
+0603   03AB 1F          	RRA
+0604   03AC 5F          	LD E,A
+0605   03AD 78          	LD A,B
+0606   03AE E6 80       	AND 80H
+0607   03B0 B1          	OR C
+0608   03B1 57          	LD D,A
+0609   03B2 42          	LD B,D
+0610   03B3 4B          	LD C,E
+0611   03B4 EB          	EX DE,HL
+0612   03B5 C9          	RET
+0613   03B6             ; Single To Long Conversion Routine
+0614   03B6 E5          X001:	PUSH HL
+0615   03B7 2E 00       	LD L,00H
+0616   03B9 63          	LD H,E
+0617   03BA 5A          	LD E,D
+0618   03BB 51          	LD D,C
+0619   03BC CB FA       	SET 7,D
+0620   03BE CB 11       	RL C
+0621   03C0 78          	LD A,B
+0622   03C1 8F          	ADC A,A
+0623   03C2 4F          	LD C,A
+0624   03C3 79          	LD A,C
+0625   03C4 D6 7F       	SUB 7FH
+0626   03C6 30 07       	JR NC,X002
+0627   03C8 01 00 00    X005:	LD BC,0000H
+0628   03CB 51          	LD D,C
+0629   03CC 59          	LD E,C
+0630   03CD 18 1F       	JR X003
+0631   03CF ED 44       X002:	NEG
+0632   03D1 C6 1F       	ADD A,1FH
+0633   03D3 28 0F       	JR Z,X004
+0634   03D5 FE 20       	CP 20H
+0635   03D7 30 EF       	JR NC,X005
+0636   03D9 CB 3A       X006:	SRL D
+0637   03DB CB 1B       	RR E
+0638   03DD CB 1C       	RR H
+0639   03DF CB 1D       	RR L
+0640   03E1 3D          	DEC A
+0641   03E2 20 F5       	JR NZ,X006
+0642   03E4 CB 78       X004:	BIT 7,B
+0643   03E6 42          	LD B,D
+0644   03E7 4B          	LD C,E
+0645   03E8 EB          	EX DE,HL
+0646   03E9 28 03       	JR Z,X003
+0647   03EB CD F0 03    	CALL X007
+0648   03EE E1          X003:	POP HL
+0649   03EF C9          	RET
+0650   03F0 AF          X007:	XOR A
+0651   03F1 93          	SUB E
+0652   03F2 5F          	LD E,A
+0653   03F3 3E 00       	LD A,00H
+0654   03F5 9A          	SBC A,D
+0655   03F6 57          	LD D,A
+0656   03F7 3E 00       	LD A,00H
+0657   03F9 99          	SBC A,C
+0658   03FA 4F          	LD C,A
+0659   03FB 3E 00       	LD A,00H
+0660   03FD 98          	SBC A,B
+0661   03FE 47          	LD B,A
+0662   03FF C9          	RET
+0663   0400             ; Long To Single Conversion Routine
+0664   0400 E5          X101:	PUSH HL
+0665   0401 78          	LD A,B
+0666   0402 CB 78       	BIT 7,B
+0667   0404 28 05       	JR Z,X102
+0668   0406 CD 51 04    	CALL X103
+0669   0409 3E 80       	LD A,80H
+0670   040B EB          X102:	EX DE,HL
+0671   040C 59          	LD E,C
+0672   040D 50          	LD D,B
+0673   040E 47          	LD B,A
+0674   040F 0E 9E       	LD C,9EH
+0675   0411 CD 16 04    	CALL X104
+0676   0414 E1          	POP HL
+0677   0415 C9          	RET
+0678   0416 79          X104:	LD A,C
+0679   0417 B7          	OR A
+0680   0418 20 04       	JR NZ,X105
+0681   041A 47          X107:	LD B,A
+0682   041B 5F          	LD E,A
+0683   041C 57          	LD D,A
+0684   041D C9          	RET
+0685   041E CB 7A       X105:	BIT 7,D
+0686   0420 20 10       	JR NZ,X106
+0687   0422 79          	LD A,C
+0688   0423 B7          	OR A
+0689   0424 28 F4       	JR Z,X107
+0690   0426 0D          	DEC C
+0691   0427 CB 25       	SLA L
+0692   0429 CB 14       	RL H
+0693   042B CB 13       	RL E
+0694   042D CB 12       	RL D
+0695   042F C3 1E 04    	JP X105
+0696   0432 7D          X106:	LD A,L
+0697   0433 C6 80       	ADD A,80H
+0698   0435 7C          	LD A,H
+0699   0436 CE 00       	ADC A,00H
+0700   0438 6F          	LD L,A
+0701   0439 7B          	LD A,E
+0702   043A CE 00       	ADC A,00H
+0703   043C 67          	LD H,A
+0704   043D 7A          	LD A,D
+0705   043E CE 00       	ADC A,00H
+0706   0440 30 01       	JR NC,X108
+0707   0442 0C          	INC C
+0708   0443 87          X108:	ADD A,A
+0709   0444 CB 39       	SRL C
+0710   0446 1F          	RRA
+0711   0447 5F          	LD E,A
+0712   0448 78          	LD A,B
+0713   0449 E6 80       	AND 80H
+0714   044B B1          	OR C
+0715   044C 57          	LD D,A
+0716   044D 42          	LD B,D
+0717   044E 4B          	LD C,E
+0718   044F EB          	EX DE,HL
+0719   0450 C9          	RET
+0720   0451 AF          X103:	XOR A
+0721   0452 93          	SUB E
+0722   0453 5F          	LD E,A
+0723   0454 3E 00       	LD A,00H
+0724   0456 9A          	SBC A,D
+0725   0457 57          	LD D,A
+0726   0458 3E 00       	LD A,00H
+0727   045A 99          	SBC A,C
+0728   045B 4F          	LD C,A
+0729   045C 3E 00       	LD A,00H
+0730   045E 98          	SBC A,B
+0731   045F 47          	LD B,A
+0732   0460 C9          	RET
+0733   0461             ; Single Print Routine
+0734   0461 CB 78       P401:	BIT 7,B
+0735   0463 28 0B       	JR Z,P402
+0736   0465 3E 2D       	LD A,2DH
+0737   0467 C5          	PUSH BC
+0738   0468 DD 4E 01    	LD C,(IX+01H)
+0739   046B ED 79       	OUT (C),A
+0740   046D C1          	POP BC
+0741   046E CB B8       	RES 7,B
+0742   0470 C5          P402:	PUSH BC
+0743   0471 CB 01       	RLC C
+0744   0473 CB 10       	RL B
+0745   0475 3E 6A       	LD A,6AH
+0746   0477 90          	SUB B
+0747   0478 F2 83 04    	JP P,P403
+0748   047B 3E 95       	LD A,95H
+0749   047D 90          	SUB B
+0750   047E FA 83 04    	JP M,P403
+0751   0481 18 0B       	JR P404
+0752   0483 3E 45       P403:	LD A,45H
+0753   0485 DD 4E 01    	LD C,(IX+01H)
+0754   0488 ED 79       	OUT (C),A
+0755   048A C1          	POP BC
+0756   048B C3 8B 05    	JP P405
+0757   048E C1          P404:	POP BC
+0758   048F C5          	PUSH BC
+0759   0490 D5          	PUSH DE
+0760   0491 CD B6 03    	CALL X001
+0761   0494 C5          	PUSH BC
+0762   0495 D5          	PUSH DE
+0763   0496 01 0F 00    	LD BC,000FH
+0764   0499 11 40 42    	LD DE,4240H
+0765   049C CD 7F 01    	CALL D101
+0766   049F CD 8C 05    	CALL P406
+0767   04A2 C5          	PUSH BC
+0768   04A3 D5          	PUSH DE
+0769   04A4 01 01 00    	LD BC,0001H
+0770   04A7 11 A0 86    	LD DE,86A0H
+0771   04AA CD 7F 01    	CALL D101
+0772   04AD CD 8C 05    	CALL P406
+0773   04B0 C5          	PUSH BC
+0774   04B1 D5          	PUSH DE
+0775   04B2 01 00 00    	LD BC,0000H
+0776   04B5 11 10 27    	LD DE,2710H
+0777   04B8 CD 7F 01    	CALL D101
+0778   04BB CD 8C 05    	CALL P406
+0779   04BE C5          	PUSH BC
+0780   04BF D5          	PUSH DE
+0781   04C0 01 00 00    	LD BC,0000H
+0782   04C3 11 E8 03    	LD DE,03E8H
+0783   04C6 CD 7F 01    	CALL D101
+0784   04C9 CD 8C 05    	CALL P406
+0785   04CC C5          	PUSH BC
+0786   04CD D5          	PUSH DE
+0787   04CE 01 00 00    	LD BC,0000H
+0788   04D1 11 64 00    	LD DE,0064H
+0789   04D4 CD 7F 01    	CALL D101
+0790   04D7 CD 8C 05    	CALL P406
+0791   04DA C5          	PUSH BC
+0792   04DB D5          	PUSH DE
+0793   04DC 01 00 00    	LD BC,0000H
+0794   04DF 11 0A 00    	LD DE,000AH
+0795   04E2 CD 7F 01    	CALL D101
+0796   04E5 CD 8C 05    	CALL P406
+0797   04E8 DD 46 02    	LD B,(IX+02H)
+0798   04EB 7B          	LD A,E
+0799   04EC 06 30       	LD B,30H
+0800   04EE 80          	ADD A,B
+0801   04EF DD 4E 01    	LD C,(IX+01H)
+0802   04F2 ED 79       	OUT (C),A
+0803   04F4 DD 4E 03    	LD C,(IX+03H)
+0804   04F7 0D          	DEC C
+0805   04F8 CA 8B 05    	JP Z,P405
+0806   04FB DD 70 02    	LD (IX+02H),B
+0807   04FE DD 71 03    	LD (IX+03H),C
+0808   0501 3E 2E       	LD A,2EH
+0809   0503 DD 4E 01    	LD C,(IX+01H)
+0810   0506 ED 79       	OUT (C),A
+0811   0508 D1          	POP DE
+0812   0509 C1          	POP BC
+0813   050A CB B8       	RES 7,B
+0814   050C C5          	PUSH BC
+0815   050D D5          	PUSH DE
+0816   050E CD B6 03    	CALL X001
+0817   0511 CD 00 04    	CALL X101
+0818   0514 CD FC 01    	CALL S201
+0819   0517 C5          	PUSH BC
+0820   0518 D5          	PUSH DE
+0821   0519 01 74 49    	LD BC,4974H
+0822   051C 11 00 24    	LD DE,2400H
+0823   051F CD DB 02    	CALL M201
+0824   0522 CD B6 03    	CALL X001
+0825   0525 C5          	PUSH BC
+0826   0526 D5          	PUSH DE
+0827   0527 01 01 00    	LD BC,0001H
+0828   052A 11 A0 86    	LD DE,86A0H
+0829   052D CD 7F 01    	CALL D101
+0830   0530 CD AA 05    	CALL P409
+0831   0533 28 56       	JR Z,P405
+0832   0535 D9          	EXX
+0833   0536 C5          	PUSH BC
+0834   0537 D5          	PUSH DE
+0835   0538 01 00 00    	LD BC,0000H
+0836   053B 11 10 27    	LD DE,2710H
+0837   053E CD 7F 01    	CALL D101
+0838   0541 CD AA 05    	CALL P409
+0839   0544 28 45       	JR Z,P405
+0840   0546 D9          	EXX
+0841   0547 C5          	PUSH BC
+0842   0548 D5          	PUSH DE
+0843   0549 01 00 00    	LD BC,0000H
+0844   054C 11 E8 03    	LD DE,03E8H
+0845   054F CD 7F 01    	CALL D101
+0846   0552 CD AA 05    	CALL P409
+0847   0555 28 34       	JR Z,P405
+0848   0557 D9          	EXX
+0849   0558 C5          	PUSH BC
+0850   0559 D5          	PUSH DE
+0851   055A 01 00 00    	LD BC,0000H
+0852   055D 11 64 00    	LD DE,0064H
+0853   0560 CD 7F 01    	CALL D101
+0854   0563 CD AA 05    	CALL P409
+0855   0566 28 23       	JR Z,P405
+0856   0568 D9          	EXX
+0857   0569 C5          	PUSH BC
+0858   056A D5          	PUSH DE
+0859   056B 01 00 00    	LD BC,0000H
+0860   056E 11 0A 00    	LD DE,000AH
+0861   0571 CD 7F 01    	CALL D101
+0862   0574 CD AA 05    	CALL P409
+0863   0577 28 12       	JR Z,P405
+0864   0579 D9          	EXX
+0865   057A DD 46 02    	LD B,(IX+02H)
+0866   057D 7B          	LD A,E
+0867   057E 80          	ADD A,B
+0868   057F DD 4E 01    	LD C,(IX+01H)
+0869   0582 ED 79       	OUT (C),A
+0870   0584 DD 4E 03    	LD C,(IX+03H)
+0871   0587 0D          	DEC C
+0872   0588 DD 71 03    	LD (IX+03H),C
+0873   058B             P405:	
+0874   058B C9          	RET
+0875   058C DD 46 02    P406:	LD B,(IX+02H)
+0876   058F 7B          	LD A,E
+0877   0590 FE 00       	CP 00H
+0878   0592 28 02       	JR Z,P407
+0879   0594 06 30       	LD B,30H
+0880   0596 80          P407:	ADD A,B
+0881   0597 DD 70 02    	LD (IX+02H),B
+0882   059A 28 0C       	JR Z,P408
+0883   059C DD 4E 01    	LD C,(IX+01H)
+0884   059F ED 79       	OUT (C),A
+0885   05A1 DD 4E 03    	LD C,(IX+03H)
+0886   05A4 0D          	DEC C
+0887   05A5 DD 71 03    	LD (IX+03H),C
+0888   05A8 D9          P408:	EXX
+0889   05A9 C9          	RET
+0890   05AA DD 46 02    P409:	LD B,(IX+02H)
+0891   05AD 7B          	LD A,E
+0892   05AE 80          	ADD A,B
+0893   05AF DD 4E 01    	LD C,(IX+01H)
+0894   05B2 ED 79       	OUT (C),A
+0895   05B4 DD 4E 03    	LD C,(IX+03H)
+0896   05B7 0D          	DEC C
+0897   05B8 DD 71 03    	LD (IX+03H),C
+0898   05BB C9          	RET
+0899   05BC             ; End of listing
+0900   05BC             	.END
+Number of errors = 0

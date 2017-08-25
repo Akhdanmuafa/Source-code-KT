@@ -1,0 +1,91 @@
+<topic>General info
+Z80 Simulator IDE is an automation (ActiveX) server/client application. This feature enables communication with external simulation modules that can be developed by home developers and third parties using various Development Systems for Windows.
+
+<subtopic>z80simulatoride.server
+External client application can access Z80 Simulator IDE server services by creating an ActiveX object using z80simulatoride.server class.
+
+<topic>Functions and procedures
+Here is the list of functions and procedures available for external client applications:
+<subtopic>- getmem
+getmem(address) function will return the value in the memory location specified by 'address' argument [0-65535].
+<subtopic>- setmem
+setmem(address,value) procedure will put the 'value' argument [0-255] in the memory location specified by 'address' argument [0-65535].
+<subtopic>- getio
+getio(address) function will return the value on the I/O port specified by 'address' argument [0-255].
+<subtopic>- setio
+setio(address,value) procedure will put the 'value' argument [0-255] on the I/O port specified by 'address' argument [0-255].
+<subtopic>- z80nmi
+z80nmi() procedure with no arguments will generate NMI interrupt signal.
+<subtopic>- z80int
+z80int() procedure with no arguments will generate INT interrupt signal.
+<subtopic>- z80reset
+z80reset() procedure with no arguments will generate RESET signal.
+<subtopic>- gethalt
+gethalt() function with no arguments will return the HALT state [0-1].
+<subtopic>- getinst
+getinst() function with no arguments will return the mnemonics of last executed instruction [string].
+<subtopic>- getcrystal
+getcrystal() function with no arguments will return the clock frequency parameter [string].
+<subtopic>- getclockcycles
+getclockcycles() function with no arguments will return the number of clock cycles passed after the start of the simulation. The last two functions will enable the external client application to develop a real time behavior if needed.
+<subtopic>- geta
+geta() function will return the value in A register.
+<subtopic>- getf
+getf() function will return the value in F (flag) register.
+<subtopic>- getb
+getb() function will return the value in B register.
+<subtopic>- getc
+getc() function will return the value in C register.
+<subtopic>- getd
+getd() function will return the value in D register.
+<subtopic>- gete
+gete() function will return the value in E register.
+<subtopic>- geth
+geth() function will return the value in H register.
+<subtopic>- getl
+getl() function will return the value in L register.
+<subtopic>- getix
+getix() function will return the value in IX register.
+<subtopic>- getiy
+getiy() function will return the value in IY register.
+<subtopic>- getsp
+getsp() function will return the value in SP register.
+<subtopic>- getpc
+getpc() function will return the value in PC register.
+<subtopic>- geti
+geti() function will return the value in I register.
+<subtopic>- getr
+getr() function will return the value in R register.
+<subtopic>- geta1
+geta1() function will return the value in alternate A' register.
+<subtopic>- getf1
+getf1() function will return the value in alternate F' register.
+<subtopic>- getb1
+getb1() function will return the value in alternate B' register.
+<subtopic>- getc1
+getc1() function will return the value in alternate C' register.
+<subtopic>- getd1
+getd1() function will return the value in alternate D' register.
+<subtopic>- gete1
+gete1() function will return the value in alternate E' register.
+<subtopic>- geth1
+geth1() function will return the value in alternate H' register.
+<subtopic>- getl1
+getl1() function will return the value in alternate L' register.
+
+<topic>External client/servers
+Full support and full synchronization is available for external applications with client/server capabilities. External server module should provide the following procedures:
+
+<subtopic>- objectinit
+objectinit() procedure will be called at the beginning of the simulation in Z80 Simulator IDE. With this procedure external module should be initialized to a known initial state.
+<subtopic>- objectrefresh
+objectrefresh() procedure will be called after every simulated instruction.
+<subtopic>- writeio
+writeio(port,data) procedure will be called after every simulated OUT instruction and its arguments will be available for the external module.
+<subtopic>- readio
+readio(port,data) procedure will be called during the simulation of every IN instruction and the external module should assign the non-negative value [0-255] to the second argument (that should be addressed by reference and not by value) only if it is assigned to the specified port argument.
+<subtopic>- objectterm
+objectterm() procedure needs to contain the code to terminate external module application (typically End statement).
+
+<subtopic>External modules interface
+The class name should be set using External Modules interface available from Tools menu of Z80 Simulator IDE. External client/server applications will be started and terminated automatically with Z80 Simulator IDE.

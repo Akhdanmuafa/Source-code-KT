@@ -1,0 +1,31 @@
+0001   0000 31 FF FF    START:	LD SP,STACK  ;initialize stack pointer
+0002   0003 21 00 01    	LD HL,BINBYT  ;point HL index to where binary number is stored
+0003   0006 7E          	LD A,(HL)  ;transfer byte
+0004   0007 21 01 01    	LD HL,OUTBUF  ;point HL index to output-buffer memory
+0005   000A CD 0E 00    	CALL BINBCD
+0006   000D 76          	HALT
+0007   000E             
+0008   000E             BINBCD:
+0009   000E 06 64       	LD B,100  ;load 100 into register B (power of ten holding register)
+0010   0010 CD 1A 00    	CALL BCD  ;call conversion for BCD3
+0011   0013 06 0A       	LD B,10  ;load 10 into register B
+0012   0015 CD 1A 00    	CALL BCD  ;call conversion for BCD2
+0013   0018 77          	LD (HL),A  ;store BCD1
+0014   0019 C9          	RET
+0015   001A             
+0016   001A             BCD:
+0017   001A 36 FF       	LD (HL),0FFH  ;load buffer with -1
+0018   001C 34          STORE:	INC (HL)  ;clear buffer first and increment for each subtraction
+0019   001D 90          	SUB B  ;subtract power of ten from binary number
+0020   001E 30 FC       	JR NC,STORE  ;if number is larger than power of ten, go back and add 1 to buffer
+0021   0020 80          	ADD A,B  ;if no, add power of ten to get back remainder
+0022   0021 23          	INC HL  ;go to next buffer location
+0023   0022 C9          	RET
+0024   0023             
+0025   0023             	.ORG 0100H
+0026   0100 EA          BINBYT	.DB 234  ;example binary number to be converted into a BCD number
+0027   0101             OUTBUF  ;output-buffer memory location
+0028   0101             
+0029   0101             STACK	.EQU 0FFFFH  ;definition of stack pointer initialization address
+0030   0101             	.END
+Number of errors = 0

@@ -1,0 +1,10 @@
+0001   0000 3E FF       	LD A,0FFH  ;initial value in register A
+0002   0002 01 00 FF    	LD BC,0FF00H  ;initial value in register pair BC
+0003   0005 02          L1:	LD (BC),A  ;load value in A to the memory location addressed by BC
+0004   0006 03          	INC BC  ;increment BC
+0005   0007 3D          	DEC A  ;decrement A
+0006   0008 C2 05 00    	JP NZ,L1  ;loop until value in A is zero
+0007   000B 02          	LD (BC),A  ;load value 00H to memory location FFFFH
+0008   000C 76          	HALT  ;halt cpu
+0009   000D             	.END
+Number of errors = 0

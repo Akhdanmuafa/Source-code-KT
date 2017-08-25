@@ -1,0 +1,284 @@
+<topic>General info
+
+Basic compiler editor is composed of editor panel (for user program editing) and source explorer (for easy navigation through all elements of user program - variables, symbols, constants, subroutines, procedures and functions). Editor formats and colorizes entered lines of user program, that simplifies the debugging process.
+
+The primary output of the compiler is an assembler source file. However, with an appropriate command from the menu it can be assembled and even loaded in the simulator with a single click. Menu commands and options are rich, as well as the commands from the right-click popup menus for the editor and source explorer. Basic compiler's assembler output contains many useful comment lines, that makes it very helpful for educational purposes, also.
+
+<subtopic>Show Warnings
+If Show Warnings option is enabled, in the Warnings window Basic compiler will show information about unused declarations, subroutines, procedures and functions in the user basic program.
+
+<subtopic>Do Not Compile Unused Code
+If this option is enabled, Basic compiler will not compile unused declarations, subroutines, procedures and functions, in order to save memory resources.
+
+<subtopic>Initialize Variables On Declaration
+If this option is enabled, Basic compiler will reset to zero all memory locations allocated for variables, at the position of their declaration in the basic program. This option is useful for beginners, because RAM memory is filled with random values at device power-up, and it is easy to make a mistake to assume that all variables are reset to zero at power-up. Experienced users can save some program memory, by disabling this option and taking control of variable initial values by user program where necessary.
+
+<subtopic>Optimize Variables Declaration
+This option will turn on the compiler internal routine that will optimize the variables declaration order based on the usage frequency of the variables. In this way, the most frequently used variables will be stored in higher RAM memory locations, resulting in possibly smaller size of the generated code.
+
+<topic>About variables
+
+<keywords1>Dim,As,Boolean,Short,Integer,Long,Single,
+Five data types are supported:
+<style3>Boolean - 1-byte, True or False
+<style3>Short - 1-byte integers in the range -128 to 127
+<style3>Integer - 2-byte integers in the range -32,768 to 32,767
+<style3>Long - 4-byte integers in the range -2,147,483,648 to 2,147,483,647
+<style3>Single - 4-byte single precision floating point numbers, 7 digits precision, IEEE754 standard
+
+Variables can be global (declared in the main program, before the End statement) or local (declared in subroutines, procedures and functions). Variable name used for a variable with global scope can be used again for local variable names. The compiler will reserve separate memory locations for them. There are no other limits for the total number of variables, but 64K RAM memory. Variables are declared using DIM statement:
+<style1>Dim a As Boolean
+<style1>Dim b As Short
+<style1>Dim c As Integer
+<style1>Dim d As Long
+<style1>Dim e As Single
+
+It is possible to use one-dimensional arrays for all variable types. For example:
+<style1>Dim a(100) As Integer
+declares an array of 100 Integer variables with array index in the range [0-99].
+
+It is possible to make conversions between all data types (except Boolean) by simple assignment statements:
+<style1>Dim a As Long
+<style1>Dim b As Single
+<style1>b = 123.456
+<style1>a = b
+This will result in variable A holding integer value 123.
+
+<keywords2>True,False,
+Constants can be used in decimal number system with no special marks, in hexadecimal number system with leading 0x or leading $ notation (or with H at the end) and in binary system with leading % mark (or with B at the end). ASCII value of a character can be expressed in string format (e.g. "A"). Keywords True and False are also available for Boolean type constants. For example:
+<style1>Dim a As Boolean
+<style1>Dim b As Short
+<style1>Dim c As Integer
+<style1>a = True
+<style1>b = %01010101
+<style1>c = 0x55aa
+<style1>c = "C"
+
+<keywords2>Const,
+Constants can be assigned to symbolic names using CONST directive. Constants can be global or local. One example:
+<style1>Dim a As Single
+<style1>Const pi = 3.14159
+<style1>a = pi
+
+It is possible to use comments in basic source programs. The comments must begin with single quote symbol (') and may be placed anywhere in the program.
+
+<keywords2>ASM,
+Lines of assembler source code may be placed anywhere in basic source program and must begin with ASM: prefix. If labels are used, no space should be left between the ASM: prefix and the label. For example:
+<style1>ASM:        NOP
+<style1>ASM:LABEL1: LD A,(BC)
+
+Symbolic names of all variables and constants (global and local) can be used as arguments of assembler statements. The compiler will replace that symbolic name with the proper variable address or constant value:
+<style1>Dim varname As Short
+<style1>varname = 0
+<style1>ASM:        LD A,55H
+<style1>ASM:        LD (VARNAME),A
+
+<keywords2>IncludeASM,
+If large amount of assembler code should be used, it can be loaded from an external assembler file and included to the current program by using IncludeASM directive. Its only argument is a string containing the path to the external .ASM file. This can be the full path or only the file name, if the external file is located in the same folder as the current basic program file. During the compilation process the external assembler code will be appended to the current program at its end, and not at the position of the directive. Multiple files can be included with separate IncludeASM directives. External assembler files should not contain ASM: prefix used for inline assembler code. It is also strongly suggested not to use ORG directives in the external assembler code.
+
+<topic>Mathematical and logical operations
+
+<keywords1>Mod,
+Five arithmetic operations (+, -, *, /, MOD) are available for integer data types. MOD operation is not applicable for Single data type variables. The compiler is able to compile all possible complex arithmetic expressions, including those containing math functions and user defined functions. Arithmetic operations are allowed only in assignment statements and all variables in one such statement must be of the same data type. For example:
+<style1>Dim a As Long
+<style1>Dim b As Long
+<style1>Dim c As Long
+<style1>a = 1234
+<style1>b = 2345
+<style1>b = a * b
+<style1>c = a * 100 - (a + b)
+
+<keywords2>Sqr,Sin,Cos,Tan,Exp,Ln,Log,
+There are seven single precision mathematical functions (SQR, SIN, COS, TAN, EXP, LN, LOG) that can be used with Single data type variables. All math functions can also be used in complex math expressions. For example:
+<style1>Dim a As Single
+<style1>a = 2
+<style1>a = Sqr(a)
+
+<keywords2>Not,And,Or,Xor,Nand,Nor,Nxor,
+For Boolean and Short data type variables seven basic logical operations are supported. It is possible to make only one logical operation in one single statement. Logical operations are allowed only in assignment statements. For example:
+<style2>Example 1:
+<style1>Dim a As Boolean
+<style1>Dim b As Boolean
+<style1>Dim c As Boolean
+<style1>a = True
+<style1>b = False
+<style1>c = Not a
+<style1>c = a And b
+<style1>c = a Or b
+<style1>c = a Xor b
+<style1>c = a Nand b
+<style1>c = a Nor b
+<style1>c = a Nxor b
+
+<style2>Example 2:
+<style1>Dim a As Short
+<style1>a = 0x55
+<style1>a = Not a
+
+<topic>Standard Basic language elements
+
+<keywords1>Goto,
+Unconditional jumps are performed by GOTO statement. It uses line label name as argument. Line labels can be global or local. Line labels must be followed by colon mark ':'. Here is one example:
+<style1>Dim a As Long
+<style1>a = 0
+<style1>loop: a = a + 1
+<style1>Goto loop
+
+<keywords2>For,To,Step,Next,Exit For,While,Wend,If,Then,Else,Endif,
+Three standard BASIC statements are supported: FOR-TO-STEP-NEXT, WHILE-WEND and IF-THEN-ELSE-ENDIF. In FOR-TO-STEP-NEXT statement all variables must be Integer data type. Here are several examples:
+<style2>Example 1:
+<style1>Dim a As Integer
+<style1>Dim b(100) As Single
+<style1>For a = 0 To 99
+<style1>	b(a) = a
+<style1>Next a
+
+<style2>Example 2:
+<style1>Dim a As Long
+<style1>a = 100000
+<style1>While a > 0
+<style1>	a = a - 1
+<style1>Wend
+
+<style2>Example 3:
+<style1>Dim a As Integer
+<style1>Dim b As Integer
+<style1>For a = 0 To 10000
+<style1>	If a < 1000 Then
+<style1>		b = a
+<style1>	Else
+<style1>		b = 1000
+<style1>	Endif
+<style1>Next a
+
+For statement will accept all available variable types for the running variable. Exit For statement provides a way to exit a For-Next loop. It transfers control to the statement following the Next statement.
+
+After IF-THEN statement in the same line can be placed almost every other possible statement and then ENDIF is not used. Six standard comparison operators are available: =, <>, >, >=, <, <=. There are no limits for the number of nested statements of any kind.
+
+<topic>Memory access
+
+<keywords1>Poke,Peek,
+Standard BASIC elements for accessing memory are available: POKE statement and PEEK function. They can be used with integer constants and also with variables of Short, Integer or Long data type. For example:
+<style1>Dim a As Integer
+<style1>Dim b As Integer
+<style1>Dim c As Integer
+<style1>For a = 0 To 15
+<style1>	b = Peek(a)
+<style1>	c = 240 + a
+<style1>	Poke c, b
+<style1>Next a
+
+<topic>Subroutines
+
+<keywords1>End,Gosub,Return,
+Structured programs can be written using subroutine calls with GOSUB statements that use line label names as arguments. Return from a subroutine is performed by a RETURN statement. Users need to take care that the program structure is consistent. When using subroutines, the main routine must end with an END statement. The END statement is compiled as a HALT instruction. Here is an example:
+<style1>Dim a As Integer
+<style1>Dim b As Integer
+
+<style1>b = 100
+<style1>Gosub fillmemory
+<style1>b = 101
+<style1>Gosub fillmemory
+<style1>End
+
+<style1>fillmemory:
+<style1>For a = 20000 To 21000
+<style1>	Poke a, b
+<style1>Next a
+<style1>Return
+
+<topic>Bit-oriented language elements
+
+<keywords1>SetBit,ResetBit,
+SETBIT and RESETBIT statements can be used to set or reset the individual bits in Short data type variables. The first argument is a Short variable that will be the target of the operation, and the second argument is target bit number and it must be a constant in the range 0-7.
+<style1>Dim a As Short
+<style1>a = 0xf0
+<style1>SetBit a, 0
+<style1>ResetBit a, 7
+
+<keywords2>TestBit,MakeBit,
+By using TESTBIT and MAKEBIT functions it is possible to assign a Boolean data type variable the value contained in the specific bit of a Short data type variable, and vice versa, to copy the value of a Boolean data type variable to the specific bit of a Short data type variable. The first argument of these functions is target bit number and it must be a constant in the range 0-7. For example:
+<style1>Dim a As Boolean
+<style1>Dim b As Short
+<style1>a = TestBit(0, b)
+<style1>b = MakeBit(7, a)
+
+<topic>Communication with I/O ports
+
+<keywords1>Get,
+The communication with the outside world is done using GET function and PUT and PRINT statements. The argument of the GET function is port number and must be a constant value in the range [0-255]. It can be used to assign the value received on the port to a variable of Short, Integer or Long data type. For example:
+<style1>Dim a As Integer
+<style1>a = Get(10)
+
+<keywords2>Put,
+PUT statement can be used to send data to the specified port. The data can be a constant value in the range [0-255] or contained in a variable of Short, Integer or Long data type. Only the lowest byte of the variable is sent to the port. For example:
+<style1>Dim a As Integer
+<style1>a = 200
+<style1>Put 10, a
+
+<keywords2>Print,Qt,CrLf,Lf,
+PRINT statement can be used to send string constants and decimal string representations of any supported data type variables to the specified port.
+String constants should begin and end with the opening and closing double quotation mark. There are three symbolic string constants available: Qt (or """") for the double quotation mark (ASCII code 34), CrLf for the carriage return - line feed sequence (ASCII codes 13-10) and Lf for the line feed character (ASCII code 10).
+Here is an example:
+<style1>Dim a As Single
+<style1>a = 123.456
+<style1>Print 10, "THE NUMBER IS "
+<style1>Print 10, a
+<style1>Print 10, CrLf
+
+This can also be done using only one PRINT statement:
+<style1>Print 10, "THE NUMBER IS ", a, CrLf
+
+<topic>Structured language support (procedures and functions)
+
+<keywords1>Proc,End Proc,Call,Exit,
+Procedures can be declared with PROC statement. They can contain up to 5 arguments (comma separated list) and all available data types can be used for argument variables. Argument variables are declared locally, so they do not need to have unique names in relation to the rest of user basic program, that makes very easy to re-use once written procedures in other basic programs. The procedures can be exited with EXIT statement. They must be ended with END PROC statement and must be placed after the END statement in program. Calls to procedures are implemented with CALL statement. The list of passed arguments can contain both variables and numeric constants. For example:
+<style1>Dim x As Integer
+<style1>For x = 0 To 255
+<style1>	Call port_display(x)
+<style1>Next x
+<style1>End
+
+<style1>Proc port_display(arg1 As Integer)
+<style1>Print 10, "THE NUMBER IS ", arg1, CrLf
+<style1>End Proc
+
+<keywords2>Function,End Function,
+All facts stated for procedures are valid for functions, also. Functions can be declared with FUNCTION statement. They can contain up to 5 arguments and argument variables are declared locally. Functions can be exited with EXIT statement and must be ended with END FUNCTION. The name of the function is declared as a global variable, so if the function is called with CALL statement, after its execution the function variable will contain the result. Standard way of function calls in assignment statements can be used, also. One simple example:
+<style1>Dim x As Integer
+<style1>Dim y As Integer
+<style1>For x = 0 To 100
+<style1>	y = square(x)
+<style1>Next x
+<style1>End
+
+<style1>Function square(arg1 As Integer) As Integer
+<style1>square = arg1 * arg1
+<style1>End Function
+
+<keywords2>Include,
+Basic source code from an external file can be included to the current program by using INCLUDE directive. Its only argument is a string containing the path to the external .BAS file. This can be the full path or only the file name, if the external file is located in the same folder as the current basic program file. During the compilation process the external basic source will be appended to the current program. Multiple files can be included with separate INCLUDE directives. To maintain the overall basic code structure, it is strongly suggested that the external file contains global declarations, subroutines, procedures and functions, only. Here is one very simple example for the demonstration:
+<style2>main.bas:
+<style1>Dim i As Integer
+<style1>Dim j As Integer
+
+<style1>Include "inc1.bas"
+<style1>Include "inc2.bas"
+
+<style1>For i = 1 To 10
+<style1>	j = func1(i, 100)
+<style1>	Call proc1(j)
+<style1>Next i
+<style1>End
+
+<style2>inc1.bas:
+<style1>Dim total As Integer
+
+<style1>Proc proc1(i As Integer)
+<style1>total = total + i
+<style1>End Proc
+
+<style2>inc2.bas:
+<style1>Function func1(i As Integer, j As Integer) As Integer
+<style1>func1 = i + j
+<style1>End Function
