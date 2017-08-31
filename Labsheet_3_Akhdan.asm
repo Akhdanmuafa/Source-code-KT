@@ -1,0 +1,11 @@
+	LD E,19H
+	LD D,09H
+	LD A,E
+	ADD A,D
+	LD L,A
+	LD A,04H
+	ADC A,09H
+	LD H,A
+	LD (1819),HL
+	HALT
+	.END	
